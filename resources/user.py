@@ -25,3 +25,8 @@ class SignIn(Resource):
       session['email'] = body.get('email')
       return make_response(jsonify(user), 200)
     return {"msg": "User doesn't exist or password is incorrect"}
+  
+class Logout(Resource):
+  def post(self):
+    session.pop("email", None)
+    return {"message": "User logged out"}

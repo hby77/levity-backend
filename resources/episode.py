@@ -9,12 +9,14 @@ class Episodes(Resource):
     return make_response(jsonify(episodes), 200)
 
   def post(self):
-    body = request.get_json()
-    episode = Episode.objects(title=body.get("title")).first()
-    if episode:
-      return {"msg": "Episode title already in use"}
-    Episode(**body).save()
-    return {"msg": "Episode created"}
+    if session.get("email"):
+      body = request.get_json()
+      episode = Episode.objects(title=body.get("title")).first()
+      if episode:
+        return {"msg": "Episode title already in use"}
+      Episode(**body).save()
+      return {"msg": "Episode created"}
+    return {"msg": "No user present"}
   
 class SingleEpisode(Resource):
     def get(self, id):
@@ -24,16 +26,30 @@ class SingleEpisode(Resource):
       return {"msg": "Episode doesn't exist"}
     
     def put(self, id):
-      episode = Episode.objects(id=id).first()
-      if episode:
-        body = request.get_json()
-        episode.update(**body)
-        return {"msg": "Episode updated"}
-      return {"msg": "Episode doesn't exist"}
+      if session.get("email"):
+        episode = Episode.objects(id=id).first()
+        if episode:
+          body = request.get_json()
+          print("BODY: ", body)
+          episode.update(**body)
+          return {"msg": "Episode updated"}
+        return {"msg": "Episode doesn't exist"}
+      return {"msg": "No user present"}
     
     def delete(self, id):
+      if session.get("email"):
+        episode = Episode.objects(id=id).first()
+        if episode:
+          episode.delete()
+          return {"msg": "Episode deleted"}
+        return {"msg": "Episode doesn't exist"}
+      return {"msg": "No user present"}
+    
+class EpisodeLikes(Resource):
+    def put(self, id):
       episode = Episode.objects(id=id).first()
       if episode:
-        episode.delete()
-        return {"msg": "Episode deleted"}
+        episode.likes += 1
+        episode.save()
+        return {"msg": "Episode likes updated"}
       return {"msg": "Episode doesn't exist"}
