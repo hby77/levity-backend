@@ -11,7 +11,8 @@ class Users(Resource):
   def post(self):
     body = request.get_json()
     email = User.objects(email=body.get("email")).first()
-    if email:
-      return {"msg": "Email already in use"}
+    count = User.objects.count()
+    if email or count == 1:
+      return {"msg": "Email already in use or max users"}
     User(**body).save()
     return {"msg": "Account created"}, 200
