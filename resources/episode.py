@@ -9,14 +9,14 @@ class Episodes(Resource):
     return make_response(jsonify(episodes), 200)
 
   def post(self):
-    if session.get("email"):
+    # if session.get("email"):
       body = request.get_json()
       episode = Episode.objects(title=body.get("title")).first()
       if episode:
         return {"msg": "Episode title already in use"}
       Episode(**body).save()
       return {"msg": "Episode created"}
-    return {"msg": "No user present"}
+    # return {"msg": "No user present"}
   
 class SingleEpisode(Resource):
     def get(self, id):
@@ -26,7 +26,7 @@ class SingleEpisode(Resource):
       return {"msg": "Episode doesn't exist"}
     
     def put(self, id):
-      if session.get("email"):
+      # if session.get("email"):
         episode = Episode.objects(id=id).first()
         if episode:
           body = request.get_json()
@@ -34,7 +34,7 @@ class SingleEpisode(Resource):
           episode.update(**body)
           return {"msg": "Episode updated"}
         return {"msg": "Episode doesn't exist"}
-      return {"msg": "No user present"}
+      # return {"msg": "No user present"}
     
     def delete(self, id):
       if session.get("email"):
