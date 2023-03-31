@@ -7,6 +7,7 @@ class Episode(db.Document):
     title = db.StringField()
     description = db.StringField()
     image = db.StringField()
+    date = db.StringField()
     likes = db.IntField()
     track = db.EmbeddedDocumentListField(Track)
     creation_date = db.DateTimeField(default=datetime.now)

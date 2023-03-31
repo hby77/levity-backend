@@ -37,13 +37,13 @@ class SingleEpisode(Resource):
       # return {"msg": "No user present"}
     
     def delete(self, id):
-      if session.get("email"):
+      # if session.get("email"):
         episode = Episode.objects(id=id).first()
         if episode:
           episode.delete()
           return {"msg": "Episode deleted"}
         return {"msg": "Episode doesn't exist"}
-      return {"msg": "No user present"}
+      # return {"msg": "No user present"}
     
 class EpisodeLikes(Resource):
     def put(self, id):
