@@ -53,6 +53,7 @@ class SingleEpisode(Resource):
 class EpisodeLikes(Resource):
   def put(self, id):
     episode = Episode.objects(id=id).first()
+    print(episode.likes)
     if episode:
       episode.likes += 1
       episode.save()
