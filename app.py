@@ -1,5 +1,5 @@
 from flask_jwt_extended import JWTManager
-from resources.episode import Episodes, SingleEpisode, EpisodeLikes
+from resources.episode import Episodes, SingleEpisode, EpisodeLikes, EpisodeTracks
 from resources.user import Users, SignIn, SignUp, Logout
 from flask_session import Session
 from dotenv import load_dotenv
@@ -36,6 +36,7 @@ api.add_resource(Logout, '/logout')
 api.add_resource(Episodes, '/episodes')
 api.add_resource(EpisodeLikes, '/episodes_likes/<id>')
 api.add_resource(SingleEpisode, '/single_episode/<id>')
+api.add_resource(EpisodeTracks, '/episode_tracks/<id>')
 
 if __name__ == '__main__':
     app.run(debug=True)

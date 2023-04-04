@@ -64,4 +64,8 @@ class EpisodeTracks(Resource):
     episode = Episode.objects(id=id).first()
     if episode:
       body = request.get_json()
-      episode.track.append(body.get(''))
+      episode['track'].title = body.get("title")
+      episode['track'].episode_title = body.get("episode_title")
+      episode.update(**body)
+      return {"msg": "Episode track updated"}
+    return {"msg": "Episode doesn't exist"}
