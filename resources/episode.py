@@ -53,9 +53,15 @@ class SingleEpisode(Resource):
 class EpisodeLikes(Resource):
   def put(self, id):
     episode = Episode.objects(id=id).first()
-    print(episode.likes)
     if episode:
       episode.likes += 1
       episode.save()
       return {"msg": "Episode likes updated"}
     return {"msg": "Episode doesn't exist"}
+
+class EpisodeTracks(Resource):
+  def put(self, id):
+    episode = Episode.objects(id=id).first()
+    if episode:
+      body = request.get_json()
+      episode.track.append(body.get(''))
